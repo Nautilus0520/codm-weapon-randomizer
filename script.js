@@ -153,7 +153,7 @@ function pickRandom(pool) {
 
 function spawnConfetti(color) {
   confettiLayer.innerHTML = "";
-  const palette = [color, "#c9a25e", "#8a8578"];
+  const palette = [color, "#f2f2f0", "#8f8c87"];
   const pieceCount = 14;
 
   for (let i = 0; i < pieceCount; i += 1) {

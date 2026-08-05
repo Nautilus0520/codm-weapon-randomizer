@@ -1,22 +1,21 @@
 :root {
-  --bg-0: #0a0a0b;
-  --bg-1: #101012;
-  --surface: rgba(255, 255, 255, 0.025);
-  --surface-strong: rgba(255, 255, 255, 0.045);
-  --border: rgba(255, 255, 255, 0.07);
-  --border-strong: rgba(201, 162, 94, 0.35);
-  --text-primary: #e8e6e0;
-  --text-secondary: #837e76;
-  --text-tertiary: #5c5852;
-  --accent: #c9a25e;
-  --accent-soft: #a98a52;
+  --bg-0: #050505;
+  --bg-1: #0b0b0b;
+  --surface: rgba(255, 255, 255, 0.03);
+  --surface-strong: rgba(255, 255, 255, 0.06);
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.4);
+  --text-primary: #f2f2f0;
+  --text-secondary: #8f8c87;
+  --text-tertiary: #5a5751;
+  --accent: #f2f2f0;
   --radius-lg: 16px;
   --radius-md: 12px;
   --radius-sm: 8px;
   --font-serif: "Shippori Mincho", "Yu Mincho", serif;
   --font-sans: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
 
-  /* カテゴリーカラー（すべて低彩度） */
+  /* 全体はモノトーン基調、武器種の区別だけ色を使う */
   --c-ar: #b5765f;
   --c-smg: #6f8e96;
   --c-lmg: #7c8f6e;
@@ -37,7 +36,7 @@ html, body {
 body {
   background: var(--bg-0);
   background-image:
-    radial-gradient(900px circle at 50% -8%, rgba(201, 162, 94, 0.05), transparent 55%);
+    radial-gradient(900px circle at 50% -8%, rgba(255, 255, 255, 0.035), transparent 55%);
   color: var(--text-primary);
   font-family: var(--font-sans);
   display: flex;
@@ -53,7 +52,7 @@ body {
   pointer-events: none;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0%, transparent 12%),
-    radial-gradient(700px circle at 20% 100%, rgba(201, 162, 94, 0.035), transparent 60%);
+    radial-gradient(700px circle at 20% 100%, rgba(255, 255, 255, 0.02), transparent 60%);
   z-index: 0;
 }
 
@@ -88,7 +87,7 @@ body {
 }
 
 .accent-dot {
-  color: var(--accent);
+  color: var(--text-tertiary);
 }
 
 .subtitle {
@@ -115,7 +114,7 @@ body {
 }
 
 .category-chip {
-  --chip-color: var(--accent);
+  --chip-color: var(--text-primary);
   font-size: 12.5px;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -136,12 +135,12 @@ body {
   height: 5px;
   border-radius: 50%;
   background: var(--chip-color);
-  opacity: 0.35;
+  opacity: 0.3;
   transition: opacity 0.2s ease;
 }
 
 .category-chip.active {
-  background: color-mix(in srgb, var(--chip-color) 12%, transparent);
+  background: color-mix(in srgb, var(--chip-color) 14%, transparent);
   border-color: color-mix(in srgb, var(--chip-color) 55%, transparent);
   color: var(--text-primary);
 }
@@ -192,7 +191,7 @@ body {
   position: relative;
   border-radius: var(--radius-lg);
   padding: 1px;
-  background: linear-gradient(160deg, rgba(201, 162, 94, 0.4), rgba(201, 162, 94, 0.06) 40%, rgba(201, 162, 94, 0.18));
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.14));
 }
 
 .reel-window {
@@ -200,7 +199,7 @@ body {
   height: 104px;
   overflow: hidden;
   border-radius: calc(var(--radius-lg) - 1px);
-  background: linear-gradient(180deg, #08090a 0%, #0e0f11 50%, #08090a 100%);
+  background: linear-gradient(180deg, #050505 0%, #0c0c0c 50%, #050505 100%);
 }
 
 .reel-window::before,
@@ -216,12 +215,12 @@ body {
 
 .reel-window::before {
   top: 0;
-  background: linear-gradient(180deg, #08090a, transparent);
+  background: linear-gradient(180deg, #050505, transparent);
 }
 
 .reel-window::after {
   bottom: 0;
-  background: linear-gradient(0deg, #08090a, transparent);
+  background: linear-gradient(0deg, #050505, transparent);
 }
 
 .reel-track {
@@ -244,9 +243,9 @@ body {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.22em;
-  color: var(--item-color, var(--accent));
+  color: var(--item-color, var(--text-secondary));
   text-transform: uppercase;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 .reel-name {
@@ -282,7 +281,7 @@ body {
   top: 50%;
   height: 1px;
   transform: translateY(-50%);
-  background: linear-gradient(90deg, transparent, rgba(201, 162, 94, 0.55), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
   pointer-events: none;
   z-index: 3;
 }
@@ -335,8 +334,8 @@ body {
   padding: 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-strong);
-  background: rgba(201, 162, 94, 0.06);
-  color: var(--accent);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
   font-family: var(--font-serif);
   font-size: 15px;
   font-weight: 700;
@@ -350,12 +349,12 @@ body {
 }
 
 .spin-btn:hover {
-  background: rgba(201, 162, 94, 0.11);
-  border-color: rgba(201, 162, 94, 0.55);
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .spin-btn:active {
-  background: rgba(201, 162, 94, 0.16);
+  background: rgba(255, 255, 255, 0.13);
 }
 
 .spin-btn:disabled {
@@ -391,7 +390,7 @@ body {
 .history-list li {
   background: transparent;
   border-bottom: 1px solid var(--border);
-  border-left: 2px solid var(--item-color, var(--accent));
+  border-left: 2px solid var(--item-color, var(--text-secondary));
   padding: 11px 14px;
   font-size: 13px;
   display: flex;
