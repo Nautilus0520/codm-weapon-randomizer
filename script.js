@@ -57,7 +57,7 @@ const WEAPONS = {
 
 const ITEM_HEIGHT = 96;
 const SPIN_ITEM_COUNT = 26; // 最終結果を含む、演出用に流す件数
-const SPIN_DURATION_MS = 3200;
+const SPIN_DURATION_MS = 3600;
 
 const state = {
   active: {},
@@ -153,23 +153,21 @@ function pickRandom(pool) {
 
 function spawnConfetti(color) {
   confettiLayer.innerHTML = "";
-  const palette = [color, "#ffffff", "var(--accent-2)"];
-  const pieceCount = 26;
+  const palette = [color, "#c9a25e", "#8a8578"];
+  const pieceCount = 14;
 
   for (let i = 0; i < pieceCount; i += 1) {
     const piece = document.createElement("span");
     piece.className = "confetti-piece";
 
     const angle = Math.random() * Math.PI * 2;
-    const distance = 90 + Math.random() * 110;
+    const distance = 30 + Math.random() * 46;
     const dx = Math.cos(angle) * distance;
-    const dy = Math.sin(angle) * distance - 20;
-    const rot = (Math.random() * 720 - 360) + "deg";
-    const delay = Math.random() * 0.12;
+    const dy = Math.sin(angle) * distance * 0.6 - 10;
+    const delay = Math.random() * 0.15;
 
     piece.style.setProperty("--dx", dx + "px");
     piece.style.setProperty("--dy", dy + "px");
-    piece.style.setProperty("--rot", rot);
     piece.style.animationDelay = delay + "s";
     piece.style.background = palette[i % palette.length];
 
@@ -178,7 +176,7 @@ function spawnConfetti(color) {
 
   window.setTimeout(() => {
     confettiLayer.innerHTML = "";
-  }, 1100);
+  }, 1500);
 }
 
 function renderHistory() {
