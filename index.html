@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CODモバイル 武器ガチャ</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <div class="app">
+    <header class="app-header">
+      <p class="eyebrow">CALL OF DUTY: MOBILE</p>
+      <h1>武器ガチャ<span class="accent-dot">.</span></h1>
+      <p class="subtitle">メイン武器からランダムに1丁を召喚する</p>
+    </header>
+
+    <main>
+      <section class="category-panel" aria-label="武器種の選択">
+        <div id="categoryList" class="category-list"></div>
+        <div class="category-actions">
+          <button id="selectAllBtn" type="button" class="link-btn">すべて選択</button>
+          <button id="clearAllBtn" type="button" class="link-btn">すべて解除</button>
+          <span id="poolCount" class="pool-count"></span>
+        </div>
+      </section>
+
+      <section class="reel-panel" aria-label="抽選ルーレット">
+        <div class="reel-frame">
+          <div class="reel-window" id="reelWindow">
+            <div class="reel-track" id="reelTrack">
+              <div class="reel-item placeholder">
+                <span class="reel-cat">武器種</span>
+                <span class="reel-name">READY</span>
+              </div>
+            </div>
+          </div>
+          <div class="reel-shine"></div>
+          <div class="reel-marker"></div>
+        </div>
+        <div id="confettiLayer" class="confetti-layer" aria-hidden="true"></div>
+      </section>
+
+      <div class="action-row">
+        <button id="spinBtn" type="button" class="spin-btn">
+          <span class="spin-btn-label">ランダム選択</span>
+        </button>
+      </div>
+
+      <section class="history-panel">
+        <h2>履歴</h2>
+        <ul id="historyList" class="history-list"></ul>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p>武器リストは <code>script.js</code> 内の <code>WEAPONS</code> を編集すると更新できます。</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
