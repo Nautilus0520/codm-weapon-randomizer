@@ -187,7 +187,7 @@ function pickRandom(pool) {
 
 function spawnConfetti(color) {
   confettiLayer.innerHTML = "";
-  const palette = [color, "#f4f3f0", "#8f8c87"];
+  const palette = [color, "#2a2822", "#8f8b80"];
   const pieceCount = 14;
 
   for (let i = 0; i < pieceCount; i += 1) {
@@ -270,12 +270,16 @@ function spin() {
 
   const finalPick = pickRandom(pool);
 
-  // 演出用の帯を作る（最後の1件が最終結果）
+  // 演出用の帯を作る（sequence[SPIN_ITEM_COUNT - 1] が最終結果）
+  // 最終結果のあとに数件バッファを足しておく（万一のオーバーシュートでも空白にならないように）
   const sequence = [];
   for (let i = 0; i < SPIN_ITEM_COUNT - 1; i += 1) {
     sequence.push(pickRandom(pool));
   }
   sequence.push(finalPick);
+  for (let i = 0; i < 3; i += 1) {
+    sequence.push(pickRandom(pool));
+  }
 
   reelTrack.style.transform = "translateY(0)";
   reelTrack.innerHTML = "";
@@ -301,13 +305,17 @@ function spin() {
   const centerOffset = (reelWindow.clientHeight - measuredHeight) / 2;
   const targetY = -((SPIN_ITEM_COUNT - 1) * measuredHeight) + centerOffset;
 
-  // apple-design: 「勢いのあるジェスチャー由来の動きにだけbounceを足す」。
-  // ここはスピンという慣性のある動きなので、着地に軽いバウンスを持たせる。
+  // apple-design: bounceは「勢いのあるジェスチャー由来の動き」にだけ足す。
+  // ボタン一発で始まる抽選そのものはジェスチャーの続きではないので、
+  // 跳ねて行き過ぎると停止位置が読み取りづらくなる（履歴とズレて見える原因だった）。
+  // 跳ねずにスッと止める。
   animate(
     reelTrack,
     { y: [0, targetY] },
-    { type: "spring", bounce: 0.22, duration: 2.6 }
+    { type: "spring", bounce: 0, duration: 1.8 }
   ).then(() => {
+    // spring は許容誤差の範囲で止まるため、最後に厳密な位置へロックしてから確定する
+    reelTrack.style.transform = "translateY(" + targetY + "px)";
     finishSpin(finalPick);
   });
 }
