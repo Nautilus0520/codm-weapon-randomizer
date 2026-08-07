@@ -12,7 +12,7 @@
 import { animate } from "https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm";
 
 const WEAPONS = {
-  "アサルトライフル": {
+  "AR": {
     color: "var(--c-ar)",
     list: [
       "Type 25", "M16", "AK117", "AK-47", "ASM10", "M4", "BK57", "LK24",
@@ -23,7 +23,7 @@ const WEAPONS = {
       "BAL-27", "Cronen Squall"
     ]
   },
-  "サブマシンガン": {
+  "SMG": {
     color: "var(--c-smg)",
     list: [
       "RUS-79U", "Chicom", "PDW-57", "Razorback", "MSMC", "HG 40",
@@ -33,28 +33,28 @@ const WEAPONS = {
       "ISO", "USS 9", "VMP", "Sten", "LC10", "FSS Hurricane"
     ]
   },
-  "ライトマシンガン": {
+  "LMG": {
     color: "var(--c-lmg)",
     list: [
       "S36", "UL736", "RPD", "M4LMG", "Chopper", "Holger 26", "Hades",
       "PKM", "Dingo", "Bruen MK9", "MG42", "RAAL MG", "MG 82","DP27"
     ]
   },
-  "マークスマンライフル": {
+  "MR": {
     color: "var(--c-mr)",
     list: [
       "Kilo Bolt-Action", "SKS", "SP-R 208", "MK2", "Type 63", "M1 Garand",
       "SO-14"
     ]
   },
-  "スナイパーライフル": {
+  "SR": {
     color: "var(--c-sr)",
     list: [
       "XPR-50", "Arctic .50", "M21 EBR", "DL Q33", "Locus", "NA-45", "Outlaw",
       "Rytec AMR", "SVD", "Koshka", "ZRG 20mm", "HDR", "LW3-Tundra", "3-Line Rifle"
     ]
   },
-  "ショットガン": {
+  "SG": {
     color: "var(--c-sg)",
     list: [
       "HS2126", "BY15", "HS0405", "Striker", "KRM-262", "Echo", "R9-0",
