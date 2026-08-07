@@ -12,7 +12,7 @@
 import { animate } from "https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm";
 
 const WEAPONS = {
-  "AR": {
+  "アサルト": {
     color: "var(--c-ar)",
     list: [
       "Type 25", "M16", "AK117", "AK-47", "ASM10", "M4", "BK57", "LK24",
@@ -21,6 +21,20 @@ const WEAPONS = {
       "Oden", "Krig 6", "EM2", "Maddox", "FFAR 1", "Grau 5.56", "Groza",
       "Type 19", "BP50", "LAG 53", "XM4", "Vargo-S", "RAM-7", "Lachmann-556",
       "BAL-27", "Cronen Squall"
+    ]
+  },
+  "スナイパー": {
+    color: "var(--c-sr)",
+    list: [
+      "XPR-50", "Arctic .50", "M21 EBR", "DL Q33", "Locus", "NA-45", "Outlaw",
+      "Rytec AMR", "SVD", "Koshka", "ZRG 20mm", "HDR", "LW3-Tundra", "3-Line Rifle"
+    ]
+  },
+  "LMG": {
+    color: "var(--c-lmg)",
+    list: [
+      "S36", "UL736", "RPD", "M4LMG", "Chopper", "Holger 26", "Hades",
+      "PKM", "Dingo", "Bruen MK9", "MG42", "RAAL MG", "MG 82","DP27"
     ]
   },
   "SMG": {
@@ -33,32 +47,18 @@ const WEAPONS = {
       "ISO", "USS 9", "VMP", "Sten", "LC10", "FSS Hurricane"
     ]
   },
-  "LMG": {
-    color: "var(--c-lmg)",
-    list: [
-      "S36", "UL736", "RPD", "M4LMG", "Chopper", "Holger 26", "Hades",
-      "PKM", "Dingo", "Bruen MK9", "MG42", "RAAL MG", "MG 82","DP27"
-    ]
-  },
-  "MR": {
-    color: "var(--c-mr)",
-    list: [
-      "Kilo Bolt-Action", "SKS", "SP-R 208", "MK2", "Type 63", "M1 Garand",
-      "SO-14"
-    ]
-  },
-  "SR": {
-    color: "var(--c-sr)",
-    list: [
-      "XPR-50", "Arctic .50", "M21 EBR", "DL Q33", "Locus", "NA-45", "Outlaw",
-      "Rytec AMR", "SVD", "Koshka", "ZRG 20mm", "HDR", "LW3-Tundra", "3-Line Rifle"
-    ]
-  },
-  "SG": {
+  "ショットガン": {
     color: "var(--c-sg)",
     list: [
       "HS2126", "BY15", "HS0405", "Striker", "KRM-262", "Echo", "R9-0",
       "JAK-12", "Argus", "VLK Rogue", "Einhorn Revolving", "MX Guardian"
+    ]
+  },
+  "マークスマン": {
+    color: "var(--c-mr)",
+    list: [
+      "Kilo Bolt-Action", "SKS", "SP-R 208", "MK2", "Type 63", "M1 Garand",
+      "SO-14"
     ]
   }
 };
