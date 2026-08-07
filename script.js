@@ -1,8 +1,15 @@
 // ============================================================
-// CODモバイル 武器ガチャ
+// CODモバイル 武器抽選
 // ランチャーはサブ武器扱いのため対象外にしています。
 // 武器の追加・削除・名称修正はこの WEAPONS オブジェクトを編集するだけでOKです。
+//
+// 演出は apple-design スキルの方針に沿って組んでいます:
+//   - ボタン/チップは pointerdown の瞬間に反応する（release待ちにしない）
+//   - ルーレットの停止はイージングカーブではなく spring（慣性のある動き）
+//   - prefers-reduced-motion のときは spring を使わずクロスフェードに切り替える
 // ============================================================
+
+import { animate } from "https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm";
 
 const WEAPONS = {
   "アサルトライフル": {
@@ -55,9 +62,11 @@ const WEAPONS = {
   }
 };
 
-const ITEM_HEIGHT = 96;
+const ITEM_HEIGHT_FALLBACK = 104; // CSSの .reel-item と同じ値（実測できない場合のみ使用）
 const SPIN_ITEM_COUNT = 26; // 最終結果を含む、演出用に流す件数
-const SPIN_DURATION_MS = 3600;
+
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const state = {
   active: {},
@@ -92,6 +101,30 @@ function getPool() {
   return pool;
 }
 
+// ---------- 押した瞬間に反応するフィードバック（pointerdownで即座に、releaseで戻す） ----------
+// apple-design: "Respond on pointer-down, not on release." 通常のタップは
+// 慣性を持たないので damping はほぼ効かせず(bounce:0)、素早く反応させるだけに留める。
+function attachPressFeedback(el) {
+  let pressed = false;
+
+  const pressIn = () => {
+    if (pressed) return;
+    pressed = true;
+    animate(el, { scale: 0.96 }, { type: "spring", bounce: 0, duration: 0.15 });
+  };
+
+  const pressOut = () => {
+    if (!pressed) return;
+    pressed = false;
+    animate(el, { scale: 1 }, { type: "spring", bounce: 0, duration: 0.3 });
+  };
+
+  el.addEventListener("pointerdown", pressIn);
+  el.addEventListener("pointerup", pressOut);
+  el.addEventListener("pointerleave", pressOut);
+  el.addEventListener("pointercancel", pressOut);
+}
+
 function renderCategories() {
   categoryListEl.innerHTML = "";
   Object.keys(WEAPONS).forEach((category) => {
@@ -119,6 +152,7 @@ function renderCategories() {
       updatePoolCount();
     });
 
+    attachPressFeedback(chip);
     categoryListEl.appendChild(chip);
   });
 }
@@ -153,7 +187,7 @@ function pickRandom(pool) {
 
 function spawnConfetti(color) {
   confettiLayer.innerHTML = "";
-  const palette = [color, "#f2f2f0", "#8f8c87"];
+  const palette = [color, "#f4f3f0", "#8f8c87"];
   const pieceCount = 14;
 
   for (let i = 0; i < pieceCount; i += 1) {
@@ -186,8 +220,6 @@ function renderHistory() {
     const empty = document.createElement("li");
     empty.className = "history-empty";
     empty.textContent = "まだ結果がありません";
-    empty.style.border = "none";
-    empty.style.background = "none";
     historyListEl.appendChild(empty);
     return;
   }
@@ -207,7 +239,24 @@ function renderHistory() {
     li.appendChild(name);
     li.appendChild(cat);
     historyListEl.appendChild(li);
+
+    // reduced motion のときは動かさず、そのまま出す
+    if (!prefersReducedMotion()) {
+      animate(
+        li,
+        { opacity: [0, 1], y: [-6, 0] },
+        { type: "spring", bounce: 0, duration: 0.35 }
+      );
+    }
   });
+}
+
+function finishSpin(finalPick) {
+  state.spinning = false;
+  spinBtn.disabled = false;
+  state.history.unshift(finalPick);
+  renderHistory();
+  spawnConfetti(finalPick.color);
 }
 
 function spin() {
@@ -228,35 +277,42 @@ function spin() {
   }
   sequence.push(finalPick);
 
-  reelTrack.style.transition = "none";
   reelTrack.style.transform = "translateY(0)";
   reelTrack.innerHTML = "";
   sequence.forEach((entry) => {
     reelTrack.appendChild(buildReelItem(entry));
   });
 
-  // 中央に止まるよう、window中央から半アイテム分オフセット
-  const centerOffset = (reelWindow.clientHeight - ITEM_HEIGHT) / 2;
-  const targetY = -((SPIN_ITEM_COUNT - 1) * ITEM_HEIGHT) + centerOffset;
+  // reduced motion: スクロールさせず、短いクロスフェードで結果だけ見せる
+  if (prefersReducedMotion()) {
+    reelTrack.innerHTML = "";
+    const finalItem = buildReelItem(finalPick);
+    finalItem.style.opacity = "0";
+    reelTrack.appendChild(finalItem);
+    animate(finalItem, { opacity: [0, 1] }, { duration: 0.25, ease: "linear" });
+    window.setTimeout(() => finishSpin(finalPick), 260);
+    return;
+  }
 
-  // リフローを挟んでからアニメーション開始
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      reelTrack.style.transition =
-        "transform " + SPIN_DURATION_MS + "ms cubic-bezier(0.1, 0.82, 0.18, 1)";
-      reelTrack.style.transform = "translateY(" + targetY + "px)";
-    });
+  // 実測の高さを使うことで、CSS側のサイズ変更とズレなく同期させる
+  const measuredHeight =
+    reelTrack.firstElementChild?.getBoundingClientRect().height ||
+    ITEM_HEIGHT_FALLBACK;
+  const centerOffset = (reelWindow.clientHeight - measuredHeight) / 2;
+  const targetY = -((SPIN_ITEM_COUNT - 1) * measuredHeight) + centerOffset;
+
+  // apple-design: 「勢いのあるジェスチャー由来の動きにだけbounceを足す」。
+  // ここはスピンという慣性のある動きなので、着地に軽いバウンスを持たせる。
+  animate(
+    reelTrack,
+    { y: [0, targetY] },
+    { type: "spring", bounce: 0.22, duration: 2.6 }
+  ).then(() => {
+    finishSpin(finalPick);
   });
-
-  window.setTimeout(() => {
-    state.spinning = false;
-    spinBtn.disabled = false;
-    state.history.unshift(finalPick);
-    renderHistory();
-    spawnConfetti(finalPick.color);
-  }, SPIN_DURATION_MS + 80);
 }
 
+attachPressFeedback(spinBtn);
 spinBtn.addEventListener("click", spin);
 
 selectAllBtn.addEventListener("click", () => {

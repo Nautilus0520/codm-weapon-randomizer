@@ -1,21 +1,28 @@
 :root {
-  --bg-0: #050505;
-  --bg-1: #0b0b0b;
-  --surface: rgba(255, 255, 255, 0.03);
-  --surface-strong: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.1);
-  --border-strong: rgba(255, 255, 255, 0.4);
-  --text-primary: #f2f2f0;
-  --text-secondary: #8f8c87;
-  --text-tertiary: #5a5751;
-  --accent: #f2f2f0;
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
-  --font-serif: "Shippori Mincho", "Yu Mincho", serif;
-  --font-sans: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+  color-scheme: dark;
 
-  /* 全体はモノトーン基調、武器種の区別だけ色を使う */
+  --bg-0: #060607;
+  --text-primary: #f4f3f0;
+  --text-secondary: rgba(244, 243, 240, 0.56);
+  --text-tertiary: rgba(244, 243, 240, 0.34);
+
+  /* マテリアル: 面の"厚み"は半透明度とぼかしの強さで表現する */
+  --material-thin: rgba(255, 255, 255, 0.045);
+  --material-thin-border: rgba(255, 255, 255, 0.09);
+  --material-thin-edge: rgba(255, 255, 255, 0.14);
+  --material-regular: rgba(20, 20, 21, 0.55);
+  --material-regular-border: rgba(255, 255, 255, 0.1);
+
+  --accent: #f4f3f0;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  --font-system:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Hiragino Sans",
+    "Hiragino Kaku Gothic ProN", "Yu Gothic UI", system-ui, sans-serif;
+
+  /* 武器種の区別だけに色を使う。全体はモノトーン基調のまま */
   --c-ar: #b5765f;
   --c-smg: #6f8e96;
   --c-lmg: #7c8f6e;
@@ -35,24 +42,33 @@ html, body {
 
 body {
   background: var(--bg-0);
-  background-image:
-    radial-gradient(900px circle at 50% -8%, rgba(255, 255, 255, 0.035), transparent 55%);
+  background-image: radial-gradient(
+    900px circle at 50% -10%,
+    rgba(255, 255, 255, 0.05),
+    transparent 55%
+  );
   color: var(--text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-system);
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: 0; /* 本文はトラッキング0が基準 */
   display: flex;
   justify-content: center;
   padding: 48px 16px 80px;
   position: relative;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
 .bg-glow {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0%, transparent 12%),
-    radial-gradient(700px circle at 20% 100%, rgba(255, 255, 255, 0.02), transparent 60%);
+  background: radial-gradient(
+    700px circle at 20% 100%,
+    rgba(255, 255, 255, 0.025),
+    transparent 60%
+  );
   z-index: 0;
 }
 
@@ -70,19 +86,22 @@ body {
 }
 
 .eyebrow {
-  font-size: 10.5px;
-  letter-spacing: 0.34em;
+  font-size: 11px;
+  font-weight: 600;
+  /* 小さい文字はトラッキングをやや正方向に */
+  letter-spacing: 0.16em;
   color: var(--text-tertiary);
-  margin: 0 0 14px;
-  font-weight: 500;
+  margin: 0 0 10px;
+  text-transform: uppercase;
 }
 
 .app-header h1 {
-  font-family: var(--font-serif);
   font-size: 30px;
   font-weight: 700;
-  margin: 0 0 14px;
-  letter-spacing: 0.12em;
+  margin: 0 0 10px;
+  /* 大きい文字は詰める。サイズごとに専用のトラッキング値を持つ */
+  letter-spacing: -0.01em;
+  line-height: 1.15;
   color: var(--text-primary);
 }
 
@@ -92,15 +111,25 @@ body {
 
 .subtitle {
   color: var(--text-secondary);
-  font-size: 13px;
-  letter-spacing: 0.03em;
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
   margin: 0;
+}
+
+/* ---------- ガラス質のパネル共通 ---------- */
+.category-panel,
+.reel-frame,
+.spin-btn,
+.history-list li {
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
 }
 
 /* ---------- カテゴリーパネル ---------- */
 .category-panel {
-  background: var(--surface);
-  border: 1px solid var(--border);
+  background: var(--material-thin);
+  border: 1px solid var(--material-thin-border);
+  border-top-color: var(--material-thin-edge); /* 光が上端で反射している質感 */
   border-radius: var(--radius-lg);
   padding: 20px;
   margin-bottom: 22px;
@@ -117,17 +146,19 @@ body {
   --chip-color: var(--text-primary);
   font-size: 12.5px;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   padding: 8px 13px;
   border-radius: 999px;
-  border: 1px solid var(--border);
+  border: 1px solid var(--material-thin-border);
   background: transparent;
   color: var(--text-secondary);
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  /* 色・背景の変化はイージングで十分。動かすのは springの管轄(押下時のscale)のみ */
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  touch-action: manipulation;
 }
 
 .category-chip .dot {
@@ -136,7 +167,7 @@ body {
   border-radius: 50%;
   background: var(--chip-color);
   opacity: 0.3;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.18s ease;
 }
 
 .category-chip.active {
@@ -154,7 +185,7 @@ body {
   align-items: center;
   gap: 16px;
   flex-wrap: wrap;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--material-thin-border);
   padding-top: 14px;
 }
 
@@ -163,10 +194,11 @@ body {
   border: none;
   color: var(--text-tertiary);
   font-size: 12px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   cursor: pointer;
   padding: 0;
-  transition: color 0.2s ease;
+  transition: color 0.18s ease;
+  touch-action: manipulation;
 }
 
 .link-btn:hover {
@@ -178,7 +210,7 @@ body {
   font-size: 11.5px;
   color: var(--text-tertiary);
   font-variant-numeric: tabular-nums;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 /* ---------- ルーレット ---------- */
@@ -191,7 +223,12 @@ body {
   position: relative;
   border-radius: var(--radius-lg);
   padding: 1px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.14));
+  background: linear-gradient(
+    160deg,
+    rgba(255, 255, 255, 0.22),
+    rgba(255, 255, 255, 0.03) 40%,
+    rgba(255, 255, 255, 0.1)
+  );
 }
 
 .reel-window {
@@ -199,7 +236,7 @@ body {
   height: 104px;
   overflow: hidden;
   border-radius: calc(var(--radius-lg) - 1px);
-  background: linear-gradient(180deg, #050505 0%, #0c0c0c 50%, #050505 100%);
+  background: var(--material-regular);
 }
 
 .reel-window::before,
@@ -215,18 +252,19 @@ body {
 
 .reel-window::before {
   top: 0;
-  background: linear-gradient(180deg, #050505, transparent);
+  background: linear-gradient(180deg, rgba(6, 6, 7, 0.9), transparent);
 }
 
 .reel-window::after {
   bottom: 0;
-  background: linear-gradient(0deg, #050505, transparent);
+  background: linear-gradient(0deg, rgba(6, 6, 7, 0.9), transparent);
 }
 
 .reel-track {
   display: flex;
   flex-direction: column;
   will-change: transform;
+  /* JS(spring)がtransformを直接制御するため、transitionは持たせない */
 }
 
 .reel-item {
@@ -242,27 +280,27 @@ body {
 .reel-cat {
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   color: var(--item-color, var(--text-secondary));
   text-transform: uppercase;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .reel-name {
-  font-family: var(--font-serif);
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 700;
   color: var(--text-primary);
   text-align: center;
   padding: 0 24px;
-  letter-spacing: 0.02em;
+  /* 大きい文字なので少し詰める */
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .reel-item.placeholder .reel-name {
-  font-family: var(--font-sans);
   color: var(--text-tertiary);
   font-size: 13px;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.24em;
   font-weight: 500;
 }
 
@@ -270,7 +308,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: calc(var(--radius-lg) - 1px);
-  background: linear-gradient(115deg, rgba(255, 255, 255, 0.03) 0%, transparent 25%);
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.05) 0%, transparent 25%);
   pointer-events: none;
 }
 
@@ -281,7 +319,7 @@ body {
   top: 50%;
   height: 1px;
   transform: translateY(-50%);
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
   pointer-events: none;
   z-index: 3;
 }
@@ -316,9 +354,7 @@ body {
   }
   100% {
     opacity: 0;
-    transform:
-      translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
-      scale(0.3);
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.3);
   }
 }
 
@@ -333,28 +369,22 @@ body {
   position: relative;
   padding: 16px;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-strong);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--material-thin-edge);
+  background: var(--material-thin);
   color: var(--text-primary);
-  font-family: var(--font-serif);
   font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.spin-btn-label {
-  padding-left: 0.22em; /* letter-spacingの右余白を視覚的に補正 */
+  /* transformはpointerdown/upでJSのspringが直接動かす。ここでは触れない */
+  transition: background 0.18s ease, border-color 0.18s ease;
+  touch-action: manipulation;
+  will-change: transform;
 }
 
 .spin-btn:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.6);
-}
-
-.spin-btn:active {
-  background: rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.28);
 }
 
 .spin-btn:disabled {
@@ -364,7 +394,7 @@ body {
 
 .spin-btn.empty {
   color: var(--text-tertiary);
-  border-color: var(--border);
+  border-color: var(--material-thin-border);
   background: transparent;
 }
 
@@ -373,8 +403,9 @@ body {
   font-size: 11px;
   color: var(--text-tertiary);
   margin: 0 0 12px;
-  font-weight: 500;
-  letter-spacing: 0.24em;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .history-list {
@@ -383,38 +414,32 @@ body {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  border-top: 1px solid var(--border);
+  gap: 6px;
 }
 
 .history-list li {
-  background: transparent;
-  border-bottom: 1px solid var(--border);
+  background: var(--material-thin);
+  border: 1px solid var(--material-thin-border);
   border-left: 2px solid var(--item-color, var(--text-secondary));
+  border-radius: var(--radius-sm);
   padding: 11px 14px;
   font-size: 13px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  animation: history-in 0.3s ease;
-}
-
-@keyframes history-in {
-  from { opacity: 0; transform: translateY(-4px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .history-list li .h-name {
-  font-family: var(--font-serif);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-primary);
+  letter-spacing: -0.005em;
 }
 
 .history-list li .h-cat {
   color: var(--text-tertiary);
   font-size: 10.5px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   white-space: nowrap;
 }
 
@@ -422,7 +447,9 @@ body {
   color: var(--text-tertiary);
   font-size: 12.5px;
   padding: 14px 2px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.02em;
+  background: none !important;
+  border: none !important;
 }
 
 /* ---------- フッター ---------- */
@@ -431,18 +458,26 @@ body {
   text-align: center;
   font-size: 11.5px;
   color: var(--text-tertiary);
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
 }
 
 .app-footer code {
-  background: var(--surface-strong);
+  background: var(--material-thin);
   color: var(--text-secondary);
   padding: 2px 6px;
   border-radius: 4px;
 }
 
+/* ---------- reduced motion: springを使う演出は静的なクロスフェードへ ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .history-list li,
+  .confetti-piece {
+    animation: none !important;
+  }
+}
+
 @media (max-width: 420px) {
   .reel-name {
-    font-size: 20px;
+    font-size: 21px;
   }
 }
