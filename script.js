@@ -15,49 +15,50 @@ const WEAPONS = {
   "アサルトライフル": {
     color: "var(--c-ar)",
     list: [
-      "BAL-27", "Lachmann-556", "Groza", "XM4", "RAM-7", "AS VAL", "Type 19",
-      "Grau 5.56", "DR-H", "M13", "AK117", "Kilo 141", "Swordfish", "HVK-30",
-      "CR-56 AMAX", "Maddox", "BP50", "Oden", "KN-44", "Type 25", "M16",
-      "ICR-1", "ASM10", "EM2", "LAG53", "BK57", "LK24", "Peacekeeper MK2",
-      "Krig 6", "HBRa3", "AK-47", "Man-O-War", "FR .556", "M4", "FFAR 1"
+      "Type 25", "M16", "AK117", "AK-47", "ASM10", "M4", "BK57", "LK24",
+      "ICR-1", "Man-O-War", "KN-44", "HBRa3", "HVK-30", "DR-H", "Peacekeeper MK2",
+      "FR .556", "AS VAL", "CR-56 AMAX", "M13", "Swordfish", "Kilo 141",
+      "Oden", "Krig 6", "EM2", "Maddox", "FFAR 1", "Grau 5.56", "Groza",
+      "Type 19", "BP50", "LAG 53", "XM4", "Vargo-S", "RAM-7", "Lachmann-556",
+      "BAL-27", "Cronen Squall"
     ]
   },
   "サブマシンガン": {
     color: "var(--c-smg)",
     list: [
-      "Switchblade X9", "Chicom", "QQ9", "MX9", "CX-9", "Fennec", "VMP",
-      "FSS Hurricane", "USS9", "QXR", "LAPA", "GKS", "Razorback", "HG 40",
-      "Sten", "Pharo", "PP19 Bizon", "CBR4", "PDW-57", "Striker 45", "OTs 9",
-      "MAC-10", "KSP 45", "PPSh-41", "Tec-9", "AGR 556", "Cordite",
-      "RUS-79U", "MSMC", "ISO", "LC10"
+      "RUS-79U", "Chicom", "PDW-57", "Razorback", "MSMC", "HG 40",
+      "Pharo", "GKS", "Cordite", "QQ9", "Fennec", "AGR 556", "QXR",
+      "PP19 Bizon", "MX9", "CBR4", "PPSh-41", "MAC-10", "KSP 45",
+      "Switchblade X9", "LAPA", "OTs 9", "Striker 45", "CX-9", "TEC-9",
+      "ISO", "USS 9", "VMP", "Sten", "LC10", "FSS Hurricane"
     ]
   },
   "ライトマシンガン": {
     color: "var(--c-lmg)",
     list: [
-      "PKM", "MG42", "Raal MG", "M4LMG", "Chopper", "Holger 26", "UL736",
-      "Dingo", "Hades", "S36", "Bruen Mk9", "DP 27", "MG82"
+      "S36", "UL736", "RPD", "M4LMG", "Chopper", "Holger 26", "Hades",
+      "PKM", "Dingo", "Bruen MK9", "MG42", "RAAL MG", "MG 82","DP27"
     ]
   },
   "マークスマンライフル": {
     color: "var(--c-mr)",
     list: [
-      "SO-14", "Type 63", "SKS", "M1 Garand", "MK2", "SP-R 208",
-      "Kilo Bolt-Action"
+      "Kilo Bolt-Action", "SKS", "SP-R 208", "MK2", "Type 63", "M1 Garand",
+      "SO-14"
     ]
   },
   "スナイパーライフル": {
     color: "var(--c-sr)",
     list: [
-      "Locus", "Koshka", "LW3-Tundra", "Rytec AMR", "XPR-50", "HDR", "SVD",
-      "DL Q33", "Arctic .50", "Outlaw", "ZRG 20mm", "M21 EBR", "NA-45"
+      "XPR-50", "Arctic .50", "M21 EBR", "DL Q33", "Locus", "NA-45", "Outlaw",
+      "Rytec AMR", "SVD", "Koshka", "ZRG 20mm", "HDR", "LW3-Tundra", "3-Line Rifle"
     ]
   },
   "ショットガン": {
     color: "var(--c-sg)",
     list: [
-      "R9-0", "HS0405", "HS2126", "KRM-262", "Argus", "BY15", "Striker",
-      "JAK-12", "MX Guardian", "VLK Rogue", "Echo", "リボルビング"
+      "HS2126", "BY15", "HS0405", "Striker", "KRM-262", "Echo", "R9-0",
+      "JAK-12", "Argus", "VLK Rogue", "Einhorn Revolving", "MX Guardian"
     ]
   }
 };
